@@ -148,4 +148,26 @@ public class EnderecoService {
         enderecoRepository.deleteById(id);
     }
 
+    public Endereco findCep(String cep) {
+        try {
+            Cep viaCepData = ViaCepClient.findCep(cep);
+
+            if (viaCepData == null || viaCepData.getLogradouro() == null || viaCepData.getLogradouro().isEmpty()) {
+                return null;
+            }
+
+            Endereco endereco = new Endereco();
+            endereco.setCep(viaCepData.getCep());
+            endereco.setLogradouro(viaCepData.getLogradouro());
+            endereco.setBairro(viaCepData.getBairro());
+            endereco.setCidade(viaCepData.getLocalidade());
+            endereco.setEstado(viaCepData.getUf());
+
+            return endereco;
+
+        } catch (Exception e) {
+            System.err.println("Erro ao buscar CEP: " + e.getMessage());
+            throw new RuntimeException("Falha na comunicação com a API. Tente novamente.", e);
+        }
+    }
 }

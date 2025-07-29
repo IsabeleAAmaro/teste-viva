@@ -22,10 +22,15 @@ const deleteEndereco = (id) => {
     return axios.delete(`${API_URL}/${id}`);
 };
 
+const getEnderecoByCep = (cep) => {
+    return axios.get(`${API_URL}/cep/${cep}`);
+};
+
 export {
     getAllEnderecos,
     getEnderecoById,
     createEndereco,
     updateEndereco,
-    deleteEndereco
+    deleteEndereco,
+    getEnderecoByCep
 };

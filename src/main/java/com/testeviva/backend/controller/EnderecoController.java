@@ -68,4 +68,18 @@ public class EnderecoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/cep/{cep}")
+    public ResponseEntity<Endereco> buscarPorCep(@PathVariable String cep) {
+        try {
+            Endereco endereco = enderecoService.findCep(cep);
+            if (endereco != null) {
+                return ResponseEntity.ok(endereco);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
