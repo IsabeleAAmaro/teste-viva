@@ -1,6 +1,7 @@
 package com.testeviva.backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +29,14 @@ public class EnderecoController {
     private final EnderecoService enderecoService;
 
     @PostMapping
-    public ResponseEntity<Endereco> criarEndereco(@RequestBody Endereco endereco) {
+    public ResponseEntity<?> criarEndereco(@RequestBody Endereco endereco) {
         try {
             Endereco novoEndereco = enderecoService.salvarEndereco(endereco);
             return ResponseEntity.status(HttpStatus.CREATED).body(novoEndereco);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -46,31 +47,31 @@ public class EnderecoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Endereco> atualizarEndereco(@PathVariable Long id, @RequestBody Endereco enderecoAtualizado) {
+    public ResponseEntity<?> atualizarEndereco(@PathVariable Long id, @RequestBody Endereco enderecoAtualizado) {
         try {
             Endereco enderecoAtualizadoResult = enderecoService.atualizarEndereco(id, enderecoAtualizado);
             return ResponseEntity.ok(enderecoAtualizadoResult);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarEndereco(@PathVariable Long id) {
+    public ResponseEntity<?> deletarEndereco(@PathVariable Long id) {
         try {
             enderecoService.deletarEndereco(id);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", e.getMessage()));
         }
     }
 
     @GetMapping("/cep/{cep}")
-    public ResponseEntity<Endereco> buscarPorCep(@PathVariable String cep) {
+    public ResponseEntity<?> buscarPorCep(@PathVariable String cep) {
         try {
             Endereco endereco = enderecoService.findCep(cep);
             if (endereco != null) {
@@ -79,7 +80,7 @@ public class EnderecoController {
                 return ResponseEntity.notFound().build();
             }
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", e.getMessage()));
         }
     }
 }

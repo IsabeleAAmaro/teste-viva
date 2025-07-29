@@ -13,6 +13,7 @@ const EnderecoForm = ({ enderecoToEdit, onSaveSuccess }) => {
         estado: ''
     });
     const [errors, setErrors] = useState({});
+    const [apiError, setApiError] = useState('');
     const [cepError, setCepError] = useState('');
 
     useEffect(() => {
@@ -29,6 +30,8 @@ const EnderecoForm = ({ enderecoToEdit, onSaveSuccess }) => {
                 estado: ''
             });
         }
+        setApiError('');
+        setErrors({});
     }, [enderecoToEdit]);
 
     const validate = () => {
@@ -47,6 +50,7 @@ const EnderecoForm = ({ enderecoToEdit, onSaveSuccess }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setApiError('');
         if (!validate()) return;
 
         try {
@@ -61,9 +65,8 @@ const EnderecoForm = ({ enderecoToEdit, onSaveSuccess }) => {
             }
             onSaveSuccess(response.data);
         } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Erro ao salvar endereço';
-            alert(errorMessage);
-            setErrors({ api: errorMessage });
+            const errorMessage = error.response?.data?.message || 'Erro ao salvar endereço. Tente novamente.';
+            setApiError(errorMessage);
         }
     };
 
@@ -97,6 +100,7 @@ const EnderecoForm = ({ enderecoToEdit, onSaveSuccess }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setApiError('');
         if (name === 'cep') {
             handleCepChange(value);
         }
@@ -105,7 +109,7 @@ const EnderecoForm = ({ enderecoToEdit, onSaveSuccess }) => {
     return (
         <form onSubmit={handleSubmit} className="endereco-form">
             <h2>{enderecoToEdit ? 'Editar Endereço' : 'Novo Endereço'}</h2>
-            {errors.api && <p className="error">{errors.api}</p>}
+            {apiError && <p className="error api-error">{apiError}</p>}
             <div className="form-group">
                 <label>Nome</label>
                 <input type="text" name="nome" value={formData.nome} onChange={handleChange} />

@@ -23,12 +23,10 @@ public class EnderecoService {
 
         if (!isValidCpfFormat(endereco.getCpf())) {
             throw new IllegalArgumentException("CPF em formato inválido ou com dígitos verificadores incorretos.");
-            //TODO: exceção de negócio personalizada?
         }
 
         if (enderecoRepository.findByCpf(endereco.getCpf()).isPresent()) {
             throw new IllegalArgumentException("Já existe um usuário com este CPF.");
-            //TODO: exceção de negócio personalizada?
         }
 
        try {
@@ -167,7 +165,7 @@ public class EnderecoService {
 
         } catch (Exception e) {
             System.err.println("Erro ao buscar CEP: " + e.getMessage());
-            throw new RuntimeException("Falha na comunicação com a API. Tente novamente.", e);
+            throw new RuntimeException("Falha na comunicação com o serviço ViaCEP. Por favor, tente novamente.", e);
         }
     }
 }
