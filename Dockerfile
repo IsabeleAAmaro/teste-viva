@@ -1,5 +1,4 @@
-# Use uma imagem base oficial do OpenJDK 17. Alpine é uma versão leve.
-FROM openjdk:17-jdk-slim-buster
+FROM maven:3.9.6-openjdk-17-slim
 
 # Definir o diretório de trabalho dentro do contêiner
 WORKDIR /app
