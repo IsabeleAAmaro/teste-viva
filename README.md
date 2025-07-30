@@ -74,13 +74,12 @@ O backend será configurado para usar o banco de dados PostgreSQL local.
 
         ```properties
         # Configurações do Banco de Dados PostgreSQL (para uso local)
-        spring.datasource.url=jdbc:postgresql://localhost:5432/vivabr_db
-        spring.datasource.username=vivabr_user
-        spring.datasource.password=sua_senha_segura
+        spring.datasource.url=jdbc:postgresql://localhost:5432/teste_endereco_db
+        spring.datasource.username=teste_user
+        spring.datasource.password=[senha]
 
         # Configurações do JPA/Hibernate para o perfil local
-        # 'create' vai criar o schema do zero toda vez que a aplicação iniciar no modo local
-        spring.jpa.hibernate.ddl-auto=create
+        spring.jpa.hibernate.ddl-auto=update
         spring.jpa.show-sql=true
 
         # Dialeto Hibernate para PostgreSQL (específico para o ambiente local)
@@ -104,13 +103,12 @@ O backend será configurado para usar o banco de dados PostgreSQL local.
         mvn spring-boot:run -Dspring.profiles.active=local
         ```
     * O backend será iniciado na porta `8080`. Ele se conectará ao seu servidor PostgreSQL local.
-    * Verifique o console para garantir que não há erros na inicialização ou conexão com o banco de dados.
 
 ### 3. Configuração e Execução do Frontend
 
 1.  Ajustar Configurações Locais:
     * Na pasta `TESTE-PRATICO/frontend/`, crie ou edite o arquivo `.env`.
-    * Cole o seguinte conteúdo (isso garante que o frontend chame o backend localmente):
+    * Cole o seguinte conteúdo:
         ```dotenv
         REACT_APP_API_BASE_URL=http://localhost:8080/api/enderecos
         ```
