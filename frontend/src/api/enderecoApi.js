@@ -3,27 +3,27 @@ import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api/enderecos';
 
 const getAllEnderecos = () => {
-    return axios.get(API_URL);
+    return axios.get(API_BASE_URL);
 };
 
 const getEnderecoById = (id) => {
-    return axios.get(`${API_URL}/${id}`);
+    return axios.get(`${API_BASE_URL}/${id}`);
 };
 
 const createEndereco = (enderecoData) => {
-    return axios.post(API_URL, enderecoData);
+    return axios.post(API_BASE_URL, enderecoData);
 };
 
 const updateEndereco = (id, enderecoData) => {
-    return axios.put(`${API_URL}/${id}`, enderecoData);
+    return axios.put(`${API_BASE_URL}/${id}`, enderecoData);
 };
 
 const deleteEndereco = (id) => {
-    return axios.delete(`${API_URL}/${id}`);
+    return axios.delete(`${API_BASE_URL}/${id}`);
 };
 
 const getEnderecoByCep = (cep) => {
-    return axios.get(`${API_URL}/cep/${cep}`);
+    return axios.get(`${API_BASE_URL}/cep/${cep}`);
 };
 
 export {
